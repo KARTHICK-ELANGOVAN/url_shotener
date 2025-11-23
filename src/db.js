@@ -4,15 +4,13 @@ const path = require('path');
 
 // Use DATABASE_URL or NEON_DATABASE_URL
 const connectionString = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
-
-// If a connection string is not provided, fall back to a local file-backed store.
 const usePg = Boolean(connectionString);
 
 if (!usePg) {
   console.warn('No DATABASE_URL/NEON_DATABASE_URL found — using local file-backed storage (node-persist)');
 }
 
-// --- Postgres-backed implementation ---
+// Initialize Postgres pool only when using pg
 let pool;
 if (usePg) {
   const globalAny = global;
